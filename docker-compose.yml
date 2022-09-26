@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+
+  master:
+    container_name: pg_master
+    hostname: pg-master
+    image: postgres
+    environment:
+      M_PG_DB_NAME: "pg_master"
+      M_PG_USER: "postgres"
+      M_PG_PASSWORD: "pass"
+      M_PGDATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - 5431:5432
+    volumes:
+      - ./pg_master:/var/lib/postgresql/dat
+
+  replica:
+    container_name: pg_replica
+    hostname: pg-replica
+    image: postgres
+    environment:
+      R_PG_DB_NAME: "pg_replica"
+      R_PG_USER: "postgres"
+      R_PG_PASSWORD: "pass"
+      R_PGDATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - 5432:5432
+    volumes:
+      - ./pg_replica:/var/lib/postgresql/dat
