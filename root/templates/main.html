@@ -10,51 +10,79 @@
 <body>
 
 <nav class="navbar navbar-expand-lg bg-light">
-  <div class="container-fluid">
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="container-fluid">
 
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="item info.." aria-label="Search">
-        <button class="btn btn btn-primary" type="submit">Add item to master</button>
-      </form>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <form method="post" class="d-flex" enctype="multipart/form-data">
+
+                {% csrf_token %}
+                <input class="form-control me-2" type="search" placeholder="item info.." aria-label="Search" name="item_name">
+                <button class="btn btn btn-primary" type="submit" name="add_item">Add</button>
+
+            </form>
+
+            <form method="post" class="d-flex" enctype="multipart/form-data">
+
+                {% csrf_token %}
+                <button class="btn btn btn-danger" type="submit" name="clear_items">Clear all items</button>
+
+            </form>
+
+        </div>
 
     </div>
-  </div>
+
 </nav>
 
 <div class="row">
 
-  <div class="col-sm-6">
+    <div class="col-sm-6">
 
-    <h2 class="text-center">MASTER ITEMS</h2>
+        {% if not master_items %}
+        <h2 class="text-center">MASTER ITEMS IS EMPTY</h2>
+        {% else %}
+        <h2 class="text-center">MASTER ITEMS</h2>
+        {% endif %}
 
-    <div class="card">
+        {% for item in master_items %}
+        <div class="card">
 
-      <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">something text...</p>
-      </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ item.name }}</h5>
+                <p class="card-text">something text...</p>
+            </div>
 
-    </div>
-  </div>
-
-  <div class="col-sm-6">
-
-    <h2 class="text-center">REPLICA ITEMS</h2>
-
-    <div class="card">
-
-      <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">something text...</p>
-      </div>
+        </div>
+        {% endfor %}
 
     </div>
-  </div>
+
+    <div class="col-sm-6">
+
+        {% if not replica_items %}
+        <h2 class="text-center">REPLICA ITEMS IS EMPTY</h2>
+        {% else %}
+        <h2 class="text-center">REPLICA ITEMS</h2>
+        {% endif %}
+
+        {% for item in replica_items %}
+        <div class="card">
+
+            <div class="card-body">
+                <h5 class="card-title">{{ item.name }}</h5>
+                <p class="card-text">something text...</p>
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
 
 </div>
 

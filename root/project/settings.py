@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -37,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'app_.apps.AppConfig'
+    'app_.apps.AppConfig'
 ]
 
 MIDDLEWARE = [
@@ -76,23 +75,25 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# захардкодил значения переменных, т.к. почему-то не смог установить dotenv
+
 DATABASES = {
-    'master': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('M_PG_DB_NAME'),
-        'USER': os.environ.get('M_PG_USER'),
-        'PASSWORD': os.environ.get('M_PG_PASSWORD'),
-        'HOST': os.environ.get('DOCKER_IMAGE_HOST') if os.environ.get('FROM_DOCKER_IMAGE') else os.environ.get('HOST'),
-        'PORT': os.environ.get('PG_PORT'),
+        'NAME': 'pg_master',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': 5431,
     },
 
     'replica': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('R_PG_DB_NAME'),
-        'USER': os.environ.get('R_PG_USER'),
-        'PASSWORD': os.environ.get('R_PG_PASSWORD'),
-        'HOST': os.environ.get('DOCKER_IMAGE_HOST') if os.environ.get('FROM_DOCKER_IMAGE') else os.environ.get('HOST'),
-        'PORT': os.environ.get('PG_PORT'),
+        'NAME': 'pg_replica',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': 5432,
     }
 }
 
