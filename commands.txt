@@ -1,0 +1,24 @@
+docker network inspect pg_replica_app_default
+
+nano var/lib/postgresql/data/pgdata/postgresql.conf
+
+pg_master ip: 172.19.0.2/16
+pg_replica ip: 172.19.0.3/16
+host.docker.internal
+
+CREATE PUBLICATION pub
+FOR TABLE app__item;
+
+CREATE SUBSCRIPTION sub
+CONNECTION 'host=localhost port=5432 password=pass user=postgres dbname=pg_replica' 
+PUBLICATION pub;
+
+ALTER SYSTEM SET wal_level = logical
+SELECT pg_reload_conf();
+
+select * from pg_settings
+where name = 'wal_level'
+
+update pg_settings
+set setting = 'logical'
+where name = 'wal_level'

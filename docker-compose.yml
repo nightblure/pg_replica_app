@@ -8,18 +8,13 @@ services:
     environment:
       POSTGRES_DB: "pg_master"
       POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
-
-      M_PG_DB_NAME: "pg_master"
-      M_PG_USER: "postgres"
-      M_PG_PASSWORD: "pass"
-      M_PGDATA: "/var/lib/postgresql/data/pgdata"
-      M_PG_PORT: "5431"
-      M_PG_HOST: "localhost"
+      POSTGRES_PASSWORD: "pass"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
     ports:
       - 5431:5432
     volumes:
       - ./pg_master:/var/lib/postgresql/dat
+    command: [ "postgres", "-c", "wal_level=logical" ]
 
   replica:
     container_name: pg_replica
@@ -28,14 +23,8 @@ services:
     environment:
       POSTGRES_DB: "pg_replica"
       POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
-
-      R_PG_DB_NAME: "pg_replica"
-      R_PG_USER: "postgres"
-      R_PG_PASSWORD: "pass"
-      R_PGDATA: "/var/lib/postgresql/data/pgdata"
-      R_PG_PORT: "5432"
-      R_PG_HOST: "localhost"
+      POSTGRES_PASSWORD: "pass"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
     ports:
       - 5432:5432
     volumes:

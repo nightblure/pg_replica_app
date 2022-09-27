@@ -3,7 +3,7 @@ from django.db import models
 """
 миграции:
     python manage.py makemigrations
-    python manage.py migrate --database=master
+    python manage.py migrate --database=default
     python manage.py migrate --database=replica
 """
 

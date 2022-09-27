@@ -14,7 +14,8 @@ def main_view(request):
         Item.objects.all().delete()
 
     if 'add_item' in request.POST:
-        item_name = request.POST.get('item_name', 'empty name')
+        print(request.POST.get('item_name'))
+        item_name = 'empty name' if not request.POST['item_name'] else request.POST['item_name']
         item_obj = Item(name=item_name)
         item_obj.save(using='default')
 
