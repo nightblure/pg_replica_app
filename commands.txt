@@ -1,6 +1,7 @@
 docker network inspect pg_replica_app_default
 
-nano var/lib/postgresql/data/pgdata/postgresql.conf
+apt-get update && apt-get install nano
+nano var/lib/postgresql/data/postgresql.conf
 
 pg_master ip: 172.19.0.2/16
 pg_replica ip: 172.19.0.3/16
@@ -22,3 +23,5 @@ where name = 'wal_level'
 update pg_settings
 set setting = 'logical'
 where name = 'wal_level'
+
+psql -U postgres -c "select setting from pg_settings where name='wal_level'"
