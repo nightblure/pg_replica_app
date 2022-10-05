@@ -1,25 +1,30 @@
 version: "3.8"
 services:
 
-  master:
+  pg_master:
     container_name: pg_master
+    hostname: pg-master
     image: postgres
     environment:
+      POSTGRES_DB: "master_db"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "pass"
     ports:
       - 5431:5432
     volumes:
       - ./pg_master:/var/lib/postgresql/dat
-    command: [ "postgres", "-c", "wal_level=logical" ]
+      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
 
-  replica:
+  pg_replica:
     container_name: pg_replica
+    hostname: pg-replica
     image: postgres
     environment:
+      POSTGRES_DB: "replica_db"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "pass"
     ports:
       - 5432:5432
     volumes:
       - ./pg_replica:/var/lib/postgresql/dat
+      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql

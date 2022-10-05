@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'pg_master',
+        'NAME': 'master_db',
         'USER': 'postgres',
         'PASSWORD': 'pass',
         'HOST': 'localhost',
@@ -89,7 +89,7 @@ DATABASES = {
 
     'replica': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'pg_replica',
+        'NAME': 'replica_db',
         'USER': 'postgres',
         'PASSWORD': 'pass',
         'HOST': 'localhost',
