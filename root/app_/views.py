@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.db import connections, transaction
+from django.views import View
 
 from app_.models import Item
 
@@ -20,19 +21,42 @@ def get_replica_items():
     return get_replica_db().all()
 
 
-def main_view(request):
-    if request.POST:
-        # определяем какая кнопка была нажата по атрибуту name (см. разметку)
-        if 'clear_items' in request.POST:
-            get_master_items().delete()
-            get_replica_items().delete()
+class MainView(View):
 
-        if 'add_item' in request.POST:
-            item_name = 'empty name' if not request.POST['item_name'] else request.POST['item_name']
-            item_obj = Item(name=item_name)
-            item_obj.save(using='default')
+    def get(self, request):
+        master_items = get_master_items()
+        replica_items = get_replica_items()
+        subname = subid = 'None'
+
+        with connections['replica'].cursor() as cursor:
+            cursor.execute('SELECT * FROM pg_stat_subscription')
+            if cursor.rowcount > 0:
+                row = cursor.fetchone()
+                subname = row[1]
+                subid = row[0]
+
+        context = {
+            'master_items': master_items,
+            'replica_items': replica_items,
+            'subname': subname,
+            'subid': subid
+        }
+
+        return render(request, 'main.html', context=context)
+
+    def post(self, request):
 
         try:
+
+            # определяем какая кнопка была нажата по атрибуту name (см. разметку)
+            if 'clear_items' in request.POST:
+                get_master_items().delete()
+                get_replica_items().delete()
+
+            if 'add_item' in request.POST:
+                item_name = 'default item' if not request.POST['item_name'] else request.POST['item_name']
+                item_obj = Item(name=item_name)
+                item_obj.save(using='default')
 
             if 'rep_on' in request.POST:
                 with connections['replica'].cursor() as cursor:
@@ -44,25 +68,5 @@ def main_view(request):
                 with connections['replica'].cursor() as cursor:
                     cursor.execute('DROP SUBSCRIPTION IF EXISTS master_subscription')
 
-        except:
-            redirect('main_page_route')
-
-    master_items = get_master_items()
-    replica_items = get_replica_items()
-    subname = subid = 'None'
-
-    with connections['replica'].cursor() as cursor:
-        cursor.execute('SELECT * FROM pg_stat_subscription')
-        if cursor.rowcount > 0:
-            row = cursor.fetchone()
-            subname = row[1]
-            subid = row[0]
-
-    context = {
-        'master_items': master_items,
-        'replica_items': replica_items,
-        'subname': subname,
-        'subid': subid
-    }
-
-    return render(request, 'main.html', context=context)
+        finally:
+            return redirect('main_page_route')

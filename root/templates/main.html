@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>home</title>
+    <title>MAIN PAGE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
@@ -30,13 +30,13 @@
             <form method="post" class="d-flex" enctype="multipart/form-data">
 
                 {% csrf_token %}
-                <button class="btn btn btn-danger" type="submit" name="clear_items">Clear all items</button>
-                <button class="btn btn-success" type="submit" name="rep_on">Create replication slot</button>
-                <button class="btn btn btn-danger" type="submit" name="rep_off">Off replication</button>
+                <button class="btn btn btn-danger" style="margin-left: 10px" type="submit" name="clear_items">Clear all items</button>
+                <button class="btn btn-success" style="margin-left: 10px" type="submit" name="rep_on">Create replication slot</button>
+                <button class="btn btn btn-danger" style="margin-left: 10px" type="submit" name="rep_off">Off replication</button>
 
             </form>
 
-            <a href="{% url 'main_page_route' %}" class="link-info">Reload Page</a>
+            <a href="{% url 'main_page_route' %}" style="margin-left: 10px" class="link-info">Reload Page</a>
 
         </div>
 
@@ -55,7 +55,7 @@
         {% endif %}
 
         {% for item in master_items %}
-        <div class="card">
+        <div class="card" style="margin-top: 15px">
 
             <div class="card-body">
                 <h5 class="card-title">{{ item.name }}</h5>
@@ -76,7 +76,7 @@
         {% endif %}
 
         {% for item in replica_items %}
-        <div class="card">
+        <div class="card" style="margin-top: 15px">
 
             <div class="card-body">
                 <h5 class="card-title">{{ item.name }}</h5>

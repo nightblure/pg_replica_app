@@ -84,7 +84,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'pass',
         'HOST': 'localhost',
-        'PORT': 5431,
+        'PORT': 5433,
     },
 
     'replica': {
@@ -93,7 +93,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'pass',
         'HOST': 'localhost',
-        'PORT': 5432,
+        'PORT': 5434,
     }
 }
 
