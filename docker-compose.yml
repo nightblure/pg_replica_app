@@ -1,6 +1,6 @@
 version: "3.8"
-services:
 
+services:
   pg_master:
     container_name: pg_master
     hostname: pg-master
@@ -23,8 +23,20 @@ services:
       POSTGRES_DB: "replica_db"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "pass"
+    # порт ХОСТА:порт КОНТЕЙНЕРА
     ports:
       - 5434:5432
     volumes:
       - ./pg_replica:/var/lib/postgresql/dat
       - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
+
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: Dockerfile.yml
+    ports:
+      - 8000:8000
+    depends_on:
+      - pg_replica
+      - pg_master

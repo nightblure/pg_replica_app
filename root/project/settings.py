@@ -75,7 +75,13 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# захардкодил значения переменных, т.к. почему-то не смог установить dotenv
+FROM_DOCKER_IMAGE = 'FROM_DOCKER_IMAGE' in os.environ
+
+MASTER_PORT = 5433
+REPLICA_PORT = 5434
+
+MASTER_HOST = 'host.docker.internal' if FROM_DOCKER_IMAGE else 'localhost' # pg_master
+REPLICA_HOST = 'host.docker.internal' if FROM_DOCKER_IMAGE else 'localhost' # pg_replica
 
 DATABASES = {
     'default': {
@@ -83,8 +89,8 @@ DATABASES = {
         'NAME': 'master_db',
         'USER': 'postgres',
         'PASSWORD': 'pass',
-        'HOST': 'localhost',
-        'PORT': 5433,
+        'HOST': MASTER_HOST,
+        'PORT': MASTER_PORT
     },
 
     'replica': {
@@ -92,8 +98,8 @@ DATABASES = {
         'NAME': 'replica_db',
         'USER': 'postgres',
         'PASSWORD': 'pass',
-        'HOST': 'localhost',
-        'PORT': 5434,
+        'HOST': REPLICA_HOST,
+        'PORT': REPLICA_PORT
     }
 }
 
