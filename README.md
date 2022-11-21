@@ -38,3 +38,5 @@ python manage.py runserver
 python manage.py migrate --database=default
 python manage.py migrate --database=replica
 ```
+
+### Хост при подключении к мастеру и реплике (например, из pgAdmin) указывать ```host.docker.internal```
